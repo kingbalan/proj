@@ -4,13 +4,7 @@ import nltk.data
 from nltk.corpus import stopwords
 import re
 from nltk.stem.wordnet import WordNetLemmatizer
-class sentenceRepresentation:
-	sentence = []
-	words = []
-	
-	def __init__(self,sen=[],word=[]):
-		self.sentence = sen
-		self.words = word
+from classes import *
 
 def removeStopwords(sentence):
 	ret = []
@@ -42,19 +36,20 @@ for sen in sentence:
 	for word in sen:
 		if word not in bag_of_words:
 			bag_of_words.append( word )
+
+global_vector = [0 for x in range(len(bag_of_words)) ]
 sentence_temp = []
 for sen in sentence:
-	a = sentenceRepresentation()
-	li = []
+	v = [ 0 for x in range(len(bag_of_words)) ]
 	for word in sen:
-		if word not in a.words:
-			li.append(word)
-		a.sentence = sen
-	sentence_temp.append(sentenceRepresentation(a.sentence,li))
+		v[bag_of_words.index(word)] += 1
+		global_vector[bag_of_words.index(word)] += 1	
+	sentence_temp.append(sentenceRepresentation(sen,v))
 	
 sentence = sentence_temp
+global_vector = Vector(global_vector)
 
-sentence = sorted(sentence,key= lambda x: len(x.words))
+sentence = sorted(sentence,key= lambda x: global_vector.cosine(x.words))
 sentence.reverse()
 summary = []
 print "How many sentences : "
@@ -65,9 +60,9 @@ for i in range(n):
 	sentence.remove(sentence[0])
 	for sen in sentence:
 		for w in temp:
-			if w in sen.words:
-				sen.words.remove(w)
-	sentence = sorted(sentence,key = lambda x:len(x.words))
+			if w in bag_of_words:
+				sen.words.remove(bag_of_words.index(w))
+	sentence = sorted(sentence,key = lambda x:global_vector.cosine(x.words))
 	sentence.reverse()
 
 for sen in summary:
