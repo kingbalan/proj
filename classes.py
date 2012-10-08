@@ -1,0 +1,3 @@
+class sentenceRepresentation:
+	sentence = []
+	words = []
