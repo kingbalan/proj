@@ -1,0 +1,28 @@
+How many sentences : 
+['yet', 'former', 'cricketer', 'turn', 'politician', 'hail', 'much', 'publicise', 'protest', 'rally', 'resound', 'success', 'address', 'supporters', 'foreign', 'activists', 'instead', 'northwest', 'pakistan', 'town', 'tank', 'last', 'stop', 'road', 'trouble', 'federally', 'administer', 'tribal', 'areas']
+
+
+['report', 'commission', 'london', 'base', 'human', 'right', 'group', 'reprieve', 'whose', 'chief', 'clive', 'stafford', 'smith', 'join', 'mr', 'khan', 'weekend', 'convoy', 'along', '32', 'activists', 'us', 'anti', 'war', 'group', 'code', 'pink']
+
+
+['also', 'pledge', 'end', 'frontier', 'crimes', 'regulation', 'arcane', 'british', 'era', 'system', 'law', 'emphasis', 'collective', 'responsibility', 'punishment', 'tribal', 'belt', 'still', 'govern', 'bring', 'region', 'mainstream', 'law']
+
+
+['earlier', 'day', 'dera', 'ismail', 'khan', 'political', 'commissioner', 'kifayetullah', 'defend', 'decision', 'blockade', 'road', 'point', 'leaflets', 'distribute', 'around', 'district', 'taliban', 'militants', 'weekend', 'vow', 'welcome', 'mr', 'khan', 'convoy', 'bomb']
+
+
+['authorities', 'use', 'steel', 'ship', 'containers', 'security', 'force', 'seal', 'road', 'enter', 'south', 'waziristan', 'protesters', 'plan', 'hold', 'rally', 'sunday', 'local', 'government', 'official', 'shahid', 'ullah', 'say']
+
+
+['study', 'last', 'month', 'stanford', 'new', 'york', 'university', 'law', 'school', 'conclude', 'cia', 'drone', 'campaign', 'pakistan', 'terrorise', 'pakistan', 'tribal', 'communities', 'politically', 'counterproductive', 'kill', 'large', 'number', 'civilians']
+
+
+['mr', 'khan', 'make', 'opposition', 'us', 'drone', 'fire', 'missiles', 'key', 'plank', 'platform', 'say', 'prime', 'minister', 'would', 'authorise', 'shoot', 'us', 'drone', 'violate', 'pakistan', 'sovereignty', 'kill', 'innocent', 'people']
+
+
+['protest', 'march', 'u', 'drone', 'strike', 'pakistan', 'lead', 'former', 'cricket', 'star', 'turn', 'politician', 'imran', 'khan', 'come', 'halt', 'sunday', 'authorities', 'block', 'access', 'demonstration', 'final', 'destination', 'tribal', 'region', 'officials', 'tell', 'cnn']
+
+
+['recent', 'years', 'washington', 'sharply', 'step', 'use', 'drone', 'attack', 'pakistan', 'mostly', 'ungoverned', 'tribal', 'region', 'widely', 'believe', 'safe', 'haven', 'militant', 'group', 'fuel', 'insurgency', 'afghanistan']
+
+
