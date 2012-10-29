@@ -6,6 +6,7 @@ import re
 from nltk.stem.wordnet import WordNetLemmatizer
 from classes import *
 
+# TODO(cliveverghese@gmail.com): Remove this function from this file and seperate it into a module.
 def removeStopwords(sentence):
 	ret = []
 	stmr = WordNetLemmatizer()
@@ -14,7 +15,7 @@ def removeStopwords(sentence):
 		ret.append(sen)
 	return ret
 	
-
+# TODO(cliveverghese@gmail.com): Change this to read files from command line and load them. Should also include an option to load dynamic number of files
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 fp = open("test.txt")
 data = fp.read()
@@ -69,6 +70,8 @@ for sen in summary:
 	print sen
 	print "\n"
 	
-		
+# TODO(balan1.618@gmail.com): Add the sentence regeneration
+
+# TODO: Document all functions used within our code including the once that we created		
 
 
