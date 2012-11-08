@@ -33,7 +33,7 @@ if len(opt) == 0:
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 sentence = []
 for tempfile in opt:
-	fp = open("test.txt")
+	fp = open(tempfile)
 	data = fp.read()
 	data = tokenizer.tokenize(data)
 
