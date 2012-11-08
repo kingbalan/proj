@@ -1,10 +1,11 @@
-
+#!/usr/bin/python
 
 import nltk.data
 from nltk.corpus import stopwords
 import re
 from nltk.stem.wordnet import WordNetLemmatizer
 from classes import *
+import sys,getopt
 
 # TODO(cliveverghese@gmail.com): Remove this function from this file and seperate it into a module.
 def removeStopwords(sentence):
@@ -15,20 +16,31 @@ def removeStopwords(sentence):
 		ret.append(sen)
 	return ret
 	
-# TODO(cliveverghese@gmail.com): Change this to read files from command line and load them. Should also include an option to load dynamic number of files
+# TODO(cliveverghese@gmail.com): Add more command line options
+
+args = sys.argv[1:]
+try:
+	arg,opt = getopt.getopt(args,"h")
+	
+except getopt.GetoptError:
+	print "Usage: " + sys.argv[0] + " [OPTIONS] FILE..."
+	sys.exit(1)
+if len(opt) == 0:
+	print "Usage: " + sys.argv[0] + " [OPTIONS] FILE..."
+	sys.exit(1)
+	
+
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-fp = open("test.txt")
-data = fp.read()
-data = tokenizer.tokenize(data)
 sentence = []
-for sen in data:
-	sentence.append(sen)
-fp.close()
-fp = open("test2.txt")
-data = fp.read()
-data = tokenizer.tokenize(data)
-for sen in data:
-	sentence.append(sen)
+for tempfile in opt:
+	fp = open("test.txt")
+	data = fp.read()
+	data = tokenizer.tokenize(data)
+
+	for sen in data:
+		sentence.append(sen)
+	fp.close()
+
 
 sentence = removeStopwords(sentence)
 
