@@ -7,8 +7,15 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from classes import *
 import sys,getopt
 
+def usage():
+	''' Print the command line usage of the program'''
+	print "Usage: " + sys.argv[0] + " [OPTIONS] FILE..."
+	print "See " + sys.argv[0] + " -h for more details"
+	
 # TODO(cliveverghese@gmail.com): Remove this function from this file and seperate it into a module.
 def removeStopwords(sentence):
+	'''Remove Stop words and stem the sentence. It also splits the sentences into words before stemming. '''
+	# TODO(cliveverghese@gmail.com) : Add part of speach to each word hence produceds
 	ret = []
 	stmr = WordNetLemmatizer()
 	for sen in sentence:
@@ -23,10 +30,10 @@ try:
 	arg,opt = getopt.getopt(args,"h")
 	
 except getopt.GetoptError:
-	print "Usage: " + sys.argv[0] + " [OPTIONS] FILE..."
+	usage()
 	sys.exit(1)
 if len(opt) == 0:
-	print "Usage: " + sys.argv[0] + " [OPTIONS] FILE..."
+	usage()
 	sys.exit(1)
 	
 
