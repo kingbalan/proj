@@ -19,6 +19,8 @@ class Vector:
 	def __setitem__(self,a,b):
 		self.data[a] = b
 
+	def getList(self):
+		return self.data
 
 	def magnitude(self):
 		temp = 0
@@ -33,7 +35,10 @@ class Vector:
 		return temp
 	def cosine(self,other):
 		temp = self.dot(other)
-		return temp / (self.magnitude() * other.magnitude())
+		mul =  self.magnitude() * other.magnitude()
+		if mul == 0:
+			return 0
+		return temp / mul
 	
 	def remove(self,pos):
 		self.data[pos] = 0

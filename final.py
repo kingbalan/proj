@@ -7,6 +7,8 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from classes import *
 import sys,getopt
 
+
+
 def usage():
 	''' Print the command line usage of the program'''
 	print "Usage: " + sys.argv[0] + " [OPTIONS] FILE..."
@@ -19,11 +21,8 @@ def removeStopwords(sentence):
 	ret = []
 	orig = []
 	stmr = WordNetLemmatizer()
-	for sen in sentence:
-		orig.append(sen)
-		sen = [ stmr.lemmatize(word.lower(),'v') for word in re.sub("[^\w]"," ",sen).split() if word.lower() not in stopwords.words('english') ]
-		ret.append(sen)
-	return ret,orig
+	sen = [ stmr.lemmatize(word.lower(),'v') for word in re.sub("[^\w]"," ",sentence).split() if word.lower() not in stopwords.words('english') ]
+	return sen
 	
 # TODO(cliveverghese@gmail.com): Add more command line options
 
@@ -41,24 +40,24 @@ if len(opt) == 0:
 
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 sentence = []
-i = 0
+total_sentences = 0
 for tempfile in opt:
 	fp = open(tempfile)
 	data = fp.read()
 	data = tokenizer.tokenize(data)
-
+	i = 0
 	for sen in data:
-		print "\rReading Sentence (" + str(i) + ")",
-		sentence.append(sen)
+		#print "(" + str(i) + ")" + sen
+		bog = removeStopwords(sen)
+		sentence.append(sentenceRepresentation(bog,0,sen,tempfile,i))
 		i = i + 1
 	fp.close()
+	total_sentences += i
 
-
-sentence,original_sentence = removeStopwords(sentence)
 
 bag_of_words = []
 for sen in sentence:
-	for word in sen:
+	for word in sen.sentence:
 		if word not in bag_of_words:
 			bag_of_words.append( word )
 i = 0
@@ -66,37 +65,29 @@ global_vector = [0 for x in range(len(bag_of_words)) ]
 sentence_temp = []
 for sen in sentence:
 	v = [ 0 for x in range(len(bag_of_words)) ]
-	for word in sen:
+	for word in sen.sentence:
 		v[bag_of_words.index(word)] += 1
 		global_vector[bag_of_words.index(word)] += 1
-	if len(sen) > 0:	
-		sentence_temp.append(sentenceRepresentation(sen,v,original_sentence[i]))
-		print sen,original_sentence[i]
+	sen.words = Vector(v)
 	i = i + 1
 	
-sentence = sentence_temp
 global_vector = Vector(global_vector)
 
-sentence = sorted(sentence,key= lambda x: global_vector.cosine(x.words))
+
+for sen in sentence:
+	sen.weight = global_vector.cosine(sen.words)
+sentence = sorted(sentence,key= lambda x: x.weight)
 sentence.reverse()
 summary = []
 print "How many sentences : "
 n = int(raw_input())
 for i in range(n):
 	print "\rChecking sentence (" + str(i) + ")",
-	summary.append(sentence[0].sentence)
-	temp = sentence[0].words
-	sentence.remove(sentence[0])
-	for sen in sentence:
-		for w in temp:
-			if w in bag_of_words:
-				sen.words.remove(bag_of_words.index(w))
-	sentence = sorted(sentence,key = lambda x:global_vector.cosine(x.words))
-	sentence.reverse()
+	summary.append(sentence[i])
+	
 
 for sen in summary:
-	print sen
-	print "\n"
+	print sen.original + "(" + sen.original_file + "," + str(sen.file_position) +"," + str(sen.length) + ")"
 	
 # TODO(balan1.618@gmail.com): Add the sentence regeneration
 
