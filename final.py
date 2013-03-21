@@ -83,11 +83,20 @@ print "How many sentences : "
 n = int(raw_input())
 for i in range(n):
 	print "\rChecking sentence (" + str(i) + ")",
-	summary.append(sentence[i])
+	summary.append(sentence[0])
+	sentence.remove(sentence[0])
+	for word in sentence[0].sentence:
+		global_vector[bag_of_words.index(word)] = 0;
+	for sen in sentence:
+		sen.weight = global_vector.cosine(sen.words)
+	sentence = sorted(sentence,key = lambda x: x.weight)
+	sentence.reverse()
+	
+	
 	
 
 for sen in summary:
-	print sen.original + "(" + sen.original_file + "," + str(sen.file_position) +"," + str(sen.length) + ")"
+	print sen.original + "(" + sen.original_file + "," + str(sen.file_position) +"," + str(sen.length) + "," + str(sen.weight) + ")"
 	
 # TODO(balan1.618@gmail.com): Add the sentence regeneration
 

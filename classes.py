@@ -12,6 +12,7 @@ class sentenceRepresentation:
 		self.words = Vector(word)
 		self.score = 0
 		self.weight = 0
+		self.cluster = 0
 		self.original_file = original_file
 		self.file_position = file_position
 		self.length = len(sen)
