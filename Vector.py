@@ -12,6 +12,12 @@ class Vector:
 		for j in range(len(self.data)):
 			temp.append(self.data[j] + other.data[j])
 		return Vector(temp)
+	
+	def __sub__(self,other):
+		temp = []
+		for j in range(len(self.data)):
+			temp.append(self.data[j] - other.data[j])
+		return Vector(temp)
 
 	def __getitem__(self,a):
 		return self.data[a]

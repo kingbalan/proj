@@ -97,10 +97,9 @@ n = int(raw_input())
 #	sentence = sorted(sentence,key = lambda x: x.relevance)
 #	sentence.reverse()
 prev_len = len(sentence) + 1
-fact = 0
-while len(sentence) > n :
+while len(sentence) > n and prev_len != len(sentence):
 	prev_len = len(sentence)
-	while sentence[0].weight < fact + 0.10:
+	while sentence[0].weight < 0.10:
 		print "Removing sentence with weight " + str(sentence[0].weight) 
 		temp_global_vector = temp_global_vector - sentence[0].words
 		sentence.remove(sentence[0])
@@ -108,29 +107,17 @@ while len(sentence) > n :
 		flag = 0
 		for sen1 in sentence:
 			temp = sen1.words.cosine(sen.words)
-			if temp > 0.40 - fact and sentence.index(sen) != sentence.index(sen1):
+			if temp > 0.50 and sentence.index(sen) != sentence.index(sen1):
 				flag = 1
 		if flag == 1:
 			print "Removing redundant sentence with " + str(temp)
-			#temp_global_vector = temp_global_vector - sen.words
 			sentence.remove(sen)
 	for sen in sentence:
-		sen.weight = temp_global_vector.cosine(sen.words)		
-	fact += 0.01
-
+		sen.weight = temp_global_vector.cosine(sen.words)			
 	
 sentence = sorted(sentence,key = lambda x: x.file_position)
 print "\rSummary Of the given text"
 
-i = max(global_vector.data)
-printed = 0
-while printed < 3:
-	for t in range(len(global_vector.data)):
-		if 	global_vector[t] == i:
-			print bag_of_words[t] + " ",
-			printed += 1
-	i -= 1	
-print "\n"
 for sen in sentence:
 	print sen.original + "(" + sen.original_file + "," + str(sen.file_position) +"," + str(sen.length) + "," + str(sen.weight) + ")"
 	
