@@ -17,5 +17,6 @@ class sentenceRepresentation:
 		self.original_file = original_file
 		self.file_position = file_position
 		self.length = len(sen)
+		self.group = 0
 		
 

@@ -6,7 +6,6 @@ import re
 from nltk.stem.wordnet import WordNetLemmatizer
 from classes import *
 import sys,getopt
-import glob
 
 
 
@@ -25,6 +24,9 @@ def removeStopwords(sentence):
 	sen = [ stmr.lemmatize(word.lower(),'v') for word in re.sub("[^\w]"," ",sentence).split() if word.lower() not in stopwords.words('english') ]
 	return sen
 	
+
+
+
 # TODO(cliveverghese@gmail.com): Add more command line options
 
 args = sys.argv[1:]
@@ -41,19 +43,30 @@ if len(opt) == 0:
 
 tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 sentence = []
+
+doc_vec = [];
+file_names ={}
+
+j=0
 total_sentences = 0
 for tempfile in opt:
 	fp = open(tempfile)
+	file_names[tempfile] = j;
 	data = fp.read()
 	data = tokenizer.tokenize(data)
 	i = 0
+	tl = []
 	for sen in data:
 		#print "(" + str(i) + ")" + sen
 		bog = removeStopwords(sen)
+		tl.append(bog);
 		sentence.append(sentenceRepresentation(bog,0,sen,tempfile,i))
 		i = i + 1
 	fp.close()
+	doc_vec.append(tl)
 	total_sentences += i
+	j += 1
+
 
 
 bag_of_words = []
@@ -99,6 +112,7 @@ n = int(raw_input())
 #	sentence.reverse()
 prev_len = len(sentence) + 1
 fact = 0
+
 while len(sentence) > n :
 	prev_len = len(sentence)
 	while sentence[0].weight < fact + 0.10:
@@ -119,11 +133,12 @@ while len(sentence) > n :
 		sen.weight = temp_global_vector.cosine(sen.words)		
 	fact += 0.01
 
-	
-sentence = sorted(sentence,key = lambda x: x.file_position)
+
+
+
 print "\rSummary Of the given text"
 
-i = max(global_vector.data)
+"""i = max(global_vector.data)
 printed = 0
 while printed < 3:
 	for t in range(len(global_vector.data)):
@@ -131,11 +146,43 @@ while printed < 3:
 			print bag_of_words[t] + " ",
 			printed += 1
 	i -= 1	
+"""
+
 print "\n"
 for sen in sentence:
 	print sen.original + "(" + sen.original_file + "," + str(sen.file_position) +"," + str(sen.length) + "," + str(sen.weight) + ")"
+
+
+#Ordering by file position	
+sentence = sorted(sentence,key = lambda x: x.file_position)
+
+
+
+print "\n"
+for sen in sentence:
+	print sen.original + "(" + sen.original_file + "," + str(sen.file_position) +"," + str(sen.length) + "," + str(sen.weight) + ")"
+	for i in range(0,sen.file_position) :
+		for word in doc_vec[file_names[sen.original_file]][i]:
+			v =  [0 for x in range(len(bag_of_words)) ]
+			if word in bag_of_words:
+				v[bag_of_words.index(word)] += 1
+		print Vector(v).cosine(sen.words)
+
+
+for sen in sentence:
+	print sen.original + "(" + sen.original_file + "," + str(sen.file_position) +"," + str(sen.length) + "," + str(sen.weight) + ")"
+
+	for i in range(sen.file_position+1,len(doc_vec[file_names[sen.original_file]])) :
+		for word in doc_vec[file_names[sen.original_file]][i]:
+			v =  [0 for x in range(len(bag_of_words)) ]
+			if word in bag_of_words:
+				v[bag_of_words.index(word)] += 1
+		print Vector(v).cosine(sen.words)	
+
+
+
 	
-# TODO(balan1.618@gmail.com): Add the sentence regeneration
+# TODO(balan1.618@gmail.com): Add the sentence reordering
 
 # TODO: Document all functions used within our code including the once that we created		
 
