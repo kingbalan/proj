@@ -1,0 +1,5 @@
+#TODO Text
+
+1.Add support to fetch all documents from a directory
+2.Improve Ordering
+3.UI for everything
