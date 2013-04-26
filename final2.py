@@ -10,7 +10,7 @@ from classes import *
 import sys,getopt
 from scipy.cluster import hierarchy
 import numpy
-
+#import scipy.cluster import vq.kmeans2
 
 
 def usage():
@@ -97,13 +97,14 @@ for sen in sentence:
 	sen.words = Vector(v)
 	document_vector.append(v)
 	i = i + 1
-	
+print "How many sentences : "
+n = int(raw_input())
 X = numpy.array(document_vector)    #Convert list to Matrix For Use in Clustering of sentences
 #print X
 Z = hierarchy.linkage(X,method="single",metric="cosine")
 Z = numpy.clip(Z,0,10000000)
 #print Z
-res = hierarchy.fcluster(Z,1.5,depth=6)
+res = hierarchy.fcluster(Z,n,depth=6,criterion="maxclust")
 #res = hierarchy.fclusterdata(X,1.5,depth=4,metric="cosine",method="single")	
 
 num_sen_cluster = {}
@@ -137,8 +138,8 @@ sentence = sorted(sentence,key= lambda x: x.group)
 #print cent_cluster
 print total_sen
 print res
-print "How many sentences : "
-n = int(raw_input())
+raw_input()
+
 #for i in range(n):
 #	print "\rChecking sentence (" + str(i) + ")",
 #	summary.append(sentence[0])
@@ -165,11 +166,14 @@ for i in range(1,len(cent_cluster) + 1):
 		if j.group == i:
 			print "Adding Sentence"
 			temp_sen.append(j)
-	num_sen = n * num_sen_cluster[i]/total_sen
+	#num_sen = n * num_sen_cluster[i]/total_sen
+	num_sen = 1
 	j = 0
+	round(num_sen)
+	print "Extracting " + str(num_sen) + " from cluster " + str(i)
 	print n * (int(num_sen_cluster[i])/int(total_sen))
-	if num_sen_cluster[i] > 1:
-		num_sen += 1
+	#if num_sen_cluster[i] > 1:
+		#num_sen += 1
 
 	print "Extracting " + str(num_sen)
 	while len(temp_sen) > 0 and j < num_sen :
