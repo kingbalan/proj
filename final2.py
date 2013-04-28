@@ -11,6 +11,8 @@ import sys,getopt
 from scipy.cluster import hierarchy
 import numpy
 import extract as ext
+from nltk.tag.simplify import simplify_wsj_tag
+
 #import scipy.cluster import vq.kmeans2
 
 
@@ -21,12 +23,16 @@ def usage():
 	
 # TODO(cliveverghese@gmail.com): Remove this function from this file and seperate it into a module.
 def removeStopwords(sentence):
-	'''Remove Stop words and stem the sentence. It also splits the sentences into words before stemming. '''
-	# TODO(cliveverghese@gmail.com) : Add part of speach to each word hence produceds
+	'''Remove StopWords'''
 	ret = []
 	orig = []
+	temp = nltk.word_tokenize(sentence)
+	temp = nltk.pos_tag(temp)
 	stmr = WordNetLemmatizer()
-	sen = [ stmr.lemmatize(word.lower(),'v') for word in re.sub("[^\w]"," ",sentence).split() if word.lower() not in stopwords.words('english') ]
+	temp = [(word, simplify_wsj_tag(tag)) for word, tag in temp]
+	sen = [ stmr.lemmatize(x.lower(),tag[0].lower()) for x,tag in temp if tag in ['N','NP','NUM','V','VD','VG','VN']]
+	
+	#sen = [ stmr.lemmatize(word.lower(),'v') for word in re.sub("[^\w]"," ",sentence).split() if word.lower() not in stopwords.words('english') ]
 	return sen
 
 
@@ -90,6 +96,7 @@ for sen in sentence:
 i = 0
 global_vector = [0 for x in range(len(bag_of_words)) ]
 sentence_temp = []
+print "Size of bag of words = " + str(len(bag_of_words))
 for sen in sentence:
 	v = [ 0 for x in range(len(bag_of_words)) ]
 	for word in sen.sentence:
