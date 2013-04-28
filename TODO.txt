@@ -1,5 +1,12 @@
 #TODO Text
 
+1. Improve Extraction
+2. Neural Nets on Reordering
+
+
+
+--------------------------------------------------------------------------------
 1.Add support to fetch all documents from a directory
 2.Improve Ordering
 3.UI for everything
+

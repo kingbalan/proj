@@ -20,5 +20,6 @@ class sentenceRepresentation:
 		self.group = 0
 		self.pi =0
 		self.year = 0
+
 		
 
