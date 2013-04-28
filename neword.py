@@ -60,6 +60,9 @@ doc_vec = [];
 file_names ={}
 
 j=0
+k=0
+
+
 total_sentences = 0
 for tempfile in opt:
 	fp = open(tempfile)
@@ -71,8 +74,12 @@ for tempfile in opt:
 	for sen in data:
 		#print "(" + str(i) + ")" + sen
 		bog = removeStopwords(sen)
-		tl.append(bog);
-		sentence.append(sentenceRepresentation(bog,0,sen,tempfile,i))
+		if(bog[0] == 'p'):
+			bog[0] = ' '
+			tl.append(bog);
+		else :
+			tl.append(bog);
+			sentence.append(sentenceRepresentation(bog,0,sen,tempfile,i))
 		i = i + 1
 	fp.close()
 	doc_vec.append(tl)
@@ -163,7 +170,7 @@ for i in range(1,len(cent_cluster) + 1):
 	temp_vector = Vector([x for x in range(len(bog)) ])
 	for j in sen_prev:
 		if j.group == i:
-			print "Adding Sentence"
+			#print "Adding Sentence"
 			temp_sen.append(j)
 	num_sen = n * num_sen_cluster[i]/total_sen
 	j = 0
@@ -171,7 +178,7 @@ for i in range(1,len(cent_cluster) + 1):
 	if num_sen_cluster[i] > 1:
 		num_sen += 1
 
-	print "Extracting " + str(num_sen)
+	#print "Extracting " + str(num_sen)
 	while len(temp_sen) > 0 and j < num_sen :
 		temp_sen = sorted(temp_sen,key = lambda x: x.weight)
 		if temp_vector.cosine(temp_sen[0].words) < 0.8:
@@ -226,125 +233,140 @@ for sen in sentence:
 
 #Ordering by file position	
 sentence = sorted(sentence,key = lambda x: x.file_position)
-
-preclist = []
-succlist = []
-
-param = 4;
-
 print "\n"
-for sen in sentence:
-	#print sen.original + "(" + sen.original_file + "," + str(sen.file_position) +"," + str(sen.length) + "," + str(sen.weight) + ")"
-	v =  [0 for x in range(len(bag_of_words)) ]
-	tlist = []
-	if(sen.file_position-param < 0):
-		j=0
-	else:
-		j= sen.file_position - param;
-
-		
-	for i in range(j,sen.file_position) :
-		for word in doc_vec[file_names[sen.original_file]][i]:
-			if word in bag_of_words:
-				v[bag_of_words.index(word)] += 1
-		val =  Vector(v).cosine(sen.words)
-		tlist.append(val)
-	if len(tlist) > 0:
-		sen.prec = max(tlist) 
-	else:
-		sen.prec = 0
+print "\n"
+print "\n"
 
 
-for sen in sentence:
-	#print sen.original + "(" + sen.original_file + "," + str(sen.file_position) +"," + str(sen.length) + "," + str(sen.weight) + ")"
-	v =  [0 for x in range(len(bag_of_words)) ]
-	tlist = []
+year_sent = []
 
 
-	if(sen.file_position + param > len(doc_vec[file_names[sen.original_file]]) ):
-		j=len(doc_vec[file_names[sen.original_file]])
-	else:
-		j= sen.file_position + param;
+#Getting the year out
 
-	for i in range(sen.file_position+1,j) :
-		v = vectorise( doc_vec[file_names[sen.original_file]][i],bag_of_words)
-		val =  Vector(v).cosine(sen.words)
-		tlist.append(val)
-	if len(tlist) > 0:
-		sen.succ = max(tlist) 
-	else:
-		sen.succ = 0
+for sent in sentence:
+	string = str(sent.original)
+	res = re.findall("(year|in|In) ([1-3][0-9]{3})",string)
+	year = 0
 
+	if len(res)>0:
+		print res
+		sent.year = res[0][1][0:4]
+		sentence.remove(sent)
+		year_sent.append(sent)
 
-def chroexp(sen1,sen2):
-	if(sen1.file_position > sen2.file_position):
-		return 1
-	if(sen1.file_position == sen2.file_position):
-		return 0.5
-	else:
-		return 0
-def precexp(sen1,sen2):
-	if(sen1.prec > sen2.prec):
-		return 1
-	if(sen1.prec == sen2.prec):
-		return 0.5
-	else:
-		return 0
-
-def succexp(sen1,sen2):
-	if(sen1.succ> sen2.succ):
-		return 1
-	if(sen1.succ == sen2.succ):
-		return 0.5
-	else:
-		return 0
-
-
-def piorder1(sen1,sen2):
-	total = 0.5*chroexp(sen1,sen2) + .3*precexp(sen1,sen2) +.2*succexp(sen1,sen2)
-	return total
-def piorder2(sen1,sen2):
-	total2 = 0.334*chroexp(sen2,sen1) + .333*precexp(sen2,sen1) +.333*succexp(sen2,sen1)
-	return total2
+year_sent = sorted(year_sent,key = lambda x: x.year)	
 
 
 
-
-
-for sen1 in sentence:
-	sig1=0
-	sig2=0
-	for sen2 in sentence:
-		sig1 = sig1 + piorder1(sen1,sen2)
-		sig2 = sig2 + piorder1(sen2,sen1)
-	sen1.pi=(sig1-sig2)
-	
-
-sentence = sorted(sentence,key= lambda x: x.pi)
 
 
 ordered = []
+
+ordered.append(sentence[0]);
+sentence = sentence[1:len(sentence)];
+
+n_ordered = 0
+
+
+param = 3
+
+top = 0
+
+
 while len(sentence) > 0:
-	t = sentence[0]
-	sentence.remove(t)
-	ordered.append(t);
+
+	temp = ordered[n_ordered]
+
+	top =0
 	for sen in sentence:
-		sen.pi = sen.pi + piorder1(t,sen) - piorder1(sen,t)
 
-	sentence = sorted(sentence,key= lambda x: x.pi)
+		i = 0;
+		tot =0
+		
+		while(doc_vec[file_names[temp.original_file]][i+temp.file_position +1 ][0] != ' ' and i<param  and temp.file_position +i <= len(doc_vec[file_names[sen.original_file]]) ):
+			v = vectorise(  doc_vec[file_names[temp.original_file]][i+temp.file_position +1 ] ,bag_of_words)
+			val =  Vector(v).cosine(sen.words)
+			
+			tot += val
 
-print "\n\nAfter Ordering\n"
-for sen in ordered:
-	print sen.original + "("+str(sen.file_position)+")" + "("+str(sen.group)+")"
+			i += 1
+			
+		
+		#print tot
+		
+		if(i>0):
+			tot = tot /i
+
+		if(tot > top):
+			top = tot
+			top_index = sen
 
 
 
 
+	#print top 
+	print top
+	if(top > 0):
+		ordered.append(top_index)
+		sentence.remove(top_index)
+		n_ordered += 1
+	else:
+
+		print "else"
+		top = 0
+		for sent in sentence:
+			val = temp.words.cosine(sent.words)
+			print val
+			if(val >top ):
+				top_index = sent
+				top = val
+		if(top > 0):
+			ordered.append(top_index)
+			sentence.remove(top_index)
+			n_ordered += 1
+		else:
+			ordered.remove(temp)
+			n_ordered -= 1
 
 
+
+i = 0
+for sent in ordered:
+	print str(i)+" : "+sent.original
+	i+=1
+
+print "\n"
+
+for sent in year_sent:
+	print sent.original
+
+param2 =len(ordered) / 2
+
+ind = 1
+
+for sent in year_sent:
+	maxval =0
+	if(ind + param2 < len(ordered)):
+		j = ind +param2
+	else:
+		j = len(ordered)
+	tmp = ind
+	for i in range(ind,j):
+		
+		val = sent.words.cosine(ordered[i].words)
+		if(val > maxval):
+			maxval = val
+			tmp = i
 	
-# TODO(balan1.618@gmail.com): Add the sentence reordering
 
-# TODO: Document all functions used within our code including the once that we created		
+	ind = tmp +1
+	print ind
+
+
+
+
+
+
+
 
 

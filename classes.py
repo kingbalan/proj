@@ -18,6 +18,7 @@ class sentenceRepresentation:
 		self.file_position = file_position
 		self.length = len(sen)
 		self.group = 0
-		self.pi
+		self.pi =0
+		self.year = 0
 		
 
