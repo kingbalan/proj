@@ -68,24 +68,24 @@ def sumarize(document_vector,sentence,n,bag_of_words):
 	sentence = []
 	print num_sen_cluster
 	for i in range(1,len(cent_cluster) + 1):
-		print "Iterating i = " + str(i)
+		#print "Iterating i = " + str(i)
 		temp_sen = []
 		temp_summary = []
 		temp_vector = Vector([x for x in range(len(bag_of_words)) ])
 		for j in sen_prev:
 			if j.group == i:
-				print "Adding Sentence"
+				#print "Adding Sentence"
 				temp_sen.append(j)
 		#num_sen = n * num_sen_cluster[i]/total_sen
 		num_sen = 1
 		j = 0
 		round(num_sen)
 		print "Extracting " + str(num_sen) + " from cluster " + str(i)
-		print n * (int(num_sen_cluster[i])/int(total_sen))
+		#print n * (int(num_sen_cluster[i])/int(total_sen))
 		#if num_sen_cluster[i] > 1:
 			#num_sen += 1
 	
-		print "Extracting " + str(num_sen)
+		#print "Extracting " + str(num_sen)
 		while len(temp_sen) > 0 and j < num_sen :
 			temp_sen = sorted(temp_sen,key = lambda x: x.weight)
 			if temp_vector.cosine(temp_sen[0].words) < 0.8:

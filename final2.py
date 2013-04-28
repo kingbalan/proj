@@ -12,6 +12,8 @@ from scipy.cluster import hierarchy
 import numpy
 import extract as ext
 from nltk.tag.simplify import simplify_wsj_tag
+from nltk.corpus import wordnet as wn
+
 
 #import scipy.cluster import vq.kmeans2
 
@@ -89,10 +91,28 @@ for tempfile in opt:
 
 
 bag_of_words = []
+index_bag_of_words = {}
+i = 0
+processed_sentences = 1
 for sen in sentence:
+	print "\rProcessing Sentence " + str(processed_sentences) + " of " + str(len(sentence)),
+	processed_sentences += 1
 	for word in sen.sentence:
-		if word not in bag_of_words:
-			bag_of_words.append( word )
+		if not index_bag_of_words.has_key(word):
+			done = False
+			for al in bag_of_words:
+				try:
+					res = wn.synsets(al)[0].path_similarity(wn.synsets(word)[0])
+					if res == 1:
+						index_bag_of_words[word] = bag_of_words.index(al)
+						done = True
+						break
+				except Exception:
+					continue
+			if not done :
+				index_bag_of_words[word] = i
+				i += 1
+				bag_of_words.append( word )
 i = 0
 global_vector = [0 for x in range(len(bag_of_words)) ]
 sentence_temp = []
@@ -100,8 +120,8 @@ print "Size of bag of words = " + str(len(bag_of_words))
 for sen in sentence:
 	v = [ 0 for x in range(len(bag_of_words)) ]
 	for word in sen.sentence:
-		v[bag_of_words.index(word)] += 1
-		global_vector[bag_of_words.index(word)] += 1
+		v[index_bag_of_words[word]] += 1
+		global_vector[index_bag_of_words[word]] += 1
 	sen.words = Vector(v)
 	document_vector.append(v)
 	i = i + 1
