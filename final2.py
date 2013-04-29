@@ -189,6 +189,8 @@ for sen in sentence:
 		j=0
 	else:
 		j= sen.file_position - param;
+
+		
 	for i in range(j,sen.file_position) :
 		for word in doc_vec[file_names[sen.original_file]][i]:
 			if word in bag_of_words:
