@@ -73,16 +73,29 @@ total_sentences = 0
 for tempfile in opt:
 	fp = open(tempfile)
 	file_names[tempfile] = j;
-	data = fp.read()
-	data = tokenizer.tokenize(data)
+	datas = fp.read()
 	i = 0
+	paranum = 0
 	tl = []
-	for sen in data:
-		#print "(" + str(i) + ")" + sen
-		bog = removeStopwords(sen)
-		tl.append(bog);
-		sentence.append(sentenceRepresentation(bog,0,sen,tempfile,i))
-		i = i + 1
+	for data in datas.splitlines():
+
+		data = data.replace('\n','')
+		data = data.replace('\t','')
+		data = data.replace('\r','')
+		sys.stdout.write( "\rProcessing para " + str(paranum))
+		if len(data) <= 3:
+			continue
+		data = tokenizer.tokenize(data)
+
+		for sen in data:
+			#print "(" + str(i) + ")" + sen
+			bog = removeStopwords(sen)
+			if len(bog) < 2:
+				continue
+			tl.append(bog);
+			sentence.append(sentenceRepresentation(bog,0,sen,tempfile,i,paranum))
+			i = i + 1
+		paranum += 1
 	fp.close()
 	doc_vec.append(tl)
 	total_sentences += i
@@ -283,7 +296,7 @@ while len(sentence) > 0:
 
 print "\n\nAfter Ordering\n"
 for sen in ordered:
-	print sen.original + "("+str(sen.file_position)+")" + "("+str(sen.group)+")"
+	print sen.original + "("+str(sen.file_position)+")" + "("+str(sen.para_num)+")" + "(" + sen.original_file + ")"
 
 
 

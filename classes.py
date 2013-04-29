@@ -6,7 +6,7 @@ class sentenceRepresentation:
 	words = 0
 	score = 0
 	
-	def __init__(self,sen=[],word=[],orig=[],original_file="",file_position=0):
+	def __init__(self,sen=[],word=[],orig=[],original_file="",file_position=0,para_num=0):
 		self.original = orig
 		self.sentence = sen
 		self.words = Vector(word)
@@ -20,6 +20,7 @@ class sentenceRepresentation:
 		self.group = 0
 		self.pi =0
 		self.year = 0
+		self.para_num = para_num
 
 		
 
