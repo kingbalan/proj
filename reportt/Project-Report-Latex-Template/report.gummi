@@ -1,0 +1,6 @@
+version=0.6.0
+typesetter=pdflatex
+steps=texpdf
+root=/home/clive/project/report/Project-Report-Latex-Template/report.tex
+
+file=/home/clive/project/report/Project-Report-Latex-Template/project/introduction.tex

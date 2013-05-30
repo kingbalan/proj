@@ -1,0 +1,40 @@
+\chapter{Introduction}
+
+\section{General Introduction}
+\paragraph{}Summarization is the process of reducing a text document into a document of smaller size that retains the most important points of the original document. Automatic summarization techniques such as extraction and abstraction provide efficient methods for the creation of document summaries.
+
+\paragraph{}Multi-document summarization technique is an extension to this ,in the sense Multi-document Summarization is an automatic procedure aimed at extraction of information from multiple texts written about the same topic. It creates information reports that are both concise and comprehensive. With different opinions being put together \& outlined, every topic is described from multiple perspectives within a single document. While the goal of a brief summary is to simplify information search and cut the time by pointing to the most relevant source documents, comprehensive multi-document summary should itself contain the required information, hence limiting the need for accessing original files to cases when refinement is required. Automatic summaries present information extracted from multiple sources algorithmically, without any editorial touch or subjective human intervention, thus making it completely unbiased.
+ 
+\paragraph{}Document clustering and multi-document summarization have definitely emerged as the two fundamental tools for understanding document data and have attracted much attention in recent years. Given a collection of documents, document clustering aims to partition them into different groups called clusters; so that the documents in the same group are similar to each other, while the documents in different clusters are dissimilar .Multi-document summarization is an effective way to summarize each document cluster. In general, there are two types of summarization: extractive summarization and abstractive summarization. Extractive summarization selects the important sentences from the original documents to form a summary, while abstractive summarization paraphrases the corpus using novel sentences. So, extractive summarization usually ranks the sentences in the documents according to their scores calculated by a set of pre deﬁned features, such as term frequency-inverse sentence frequency, sentence or term position and number of keywords.
+
+\paragraph{}Consider the situation where the user issues a search query, for instance on a news topic, and the retrieval system finds hundreds of closely-ranked documents in response. Many of these documents are likely to repeat much the same information, while differing in certain parts. Summaries of the individual documents would help, but are likely to be very similar to each other, unless the summarization system takes into account other summaries that have already been generated.
+
+
+\paragraph{}
+\begin{itemize}
+\item The degree of redundancy in information contained within a group of topically-related articles is much higher than the degree of redundancy within an article, as each article is apt to describe the main point as well as necessary shared background. Hence anti-redundancy methods are more crucial.
+\item A group of articles may contain a temporal dimension, typical in a stream of news reports about an unfolding event. Here later information may over- ride earlier more tentative or incomplete accounts
+\item The compression ratio (i.e. the size of the summary with respect to the size of the document set) will typically be much smaller for collections of dozens or hundreds of topically related documents than for single document summaries. Summarization becomes significantly more difficult when compression demands increase.
+\item The co-reference problem in summarization presents even greater challenges for multi- document than for single-document summarization.\cite{Publication2}
+\end{itemize}
+\section{Motivation}
+\paragraph{} In today’s world there are multiple sources giving us the same information. Like news websites, online reference websites, book and movie reviews etc. It is simply impossible and not practically easy to read information from everywhere. So there’s a need to deliver consolidated and summarized information to a user.
+\paragraph{} We ourselves have often encountered this problem. For looking up for writing reports and assignments we find that most information from various sources are same or redundant, given the same topic but each article can contain a line or information that is not present in all others . So we have to include that as well along with the redundant information.
+\paragraph{} So the perfect tool to tackle this problem was a multi document summarizer. In this age of information explosion, the scope for a multi document summarizer is huge. This was the motivation we had for taking up this project. 
+\paragraph{} With the inclusion of a document fetcher and classifier that automatically fetches documents from the web mainly news articles our project became more real world and useable for the common man. We also would like to provide a web interface that shows the trending stories of the hour. Hence a user can look at the concise and relevant information about the top stories that are trending at the hour.
+
+\section{Problem Definition}
+\paragraph{} The problem of data summarization is an qualitative one rather than a quantitative one .It focuses on creating on reading human readable summery of given document or documents.
+\paragraph{} The Task set of our project includes Fetching the news articles from the web automatically, Cluster it using a naive algorithm and generating summaries of each cluster based on headlines or topics.
+\paragraph{} Initial steps can easily be implemented using the help of a parser library like Beautiful Soup\cite{BeautifulSoup}. For the clustering we use a naïve algorithm like hierarchical clustering \cite{HClustering}. The heart of the project is the Multi-Document Summarizer. The summarizer can be subdivided into five parts.
+\begin{enumerate}[1. ]
+ \item Sentence Extraction
+ \item Topic Detection
+ \item Information Extraction
+ \item Sentence Generation
+ \item Sentence Ordering
+\end{enumerate}
+	
+\paragraph{} The steps we focus are Extraction and Ordering. Others are beyond the scope of this project and too complex to implement as it involves breaking down of sentences into parts of speech etc.
+
+\paragraph{} Finally we generate a web page which shows the summaries of hot news topics we fetched and created summaries of. Overall the problem is a multi faceted one and resembles a real world one. From the python back end to the HTML front end.

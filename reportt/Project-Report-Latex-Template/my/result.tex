@@ -1,0 +1,31 @@
+\chapter{Result And Analysis}
+\paragraph{}	We evaluated our algorithms using mainly articles from News websites. They are mostly articles of small size and very similar in terms of content similarity. This generated summaries of fair quality and good readability. We also tried a few test cases with standard articles of greater length .But the results were not as good as the initial ones and showed improvements on various parameters like weights assigned to the ordering experts.
+\paragraph{}	Results and analysis can mainly be divided into results of the three major steps we do. The initial clustering of documents, sentence extraction and sentence ordering. These three can be individually evaluated and finally contributes to the quality of the whole document.
+
+
+\textbf{Document Clustering}
+\paragraph{}	For creating an efficient clustering mechanism we varied the threshold value from .5 to 1.5 and while setting threshold as 1 a more precise output was obtained. Various methods were carried out starting with Euclidian distance method, tested with each parameter-single, average and complete. This approach was not found to be efficient and we moved on to the cosine method which had same parameters and keeping the parameter as ‘single’ gave the best result compared to the others. So after few trials we decided to use single as out primary method for this part of the problem.
+\paragraph{}	Another question before us was to choose between Agglomerative or Divisive technique in hierarchical clustering. Here since due to the popularity of the method and ease of use we chose Agglomerative technique for clustering. Another problem we encountered during clustering was that articles like topics related to health care and an accident being clustered together. This was avoided by changing the parameters values.
+
+
+\textbf{Sentence Extraction} 
+\paragraph{}	Sentence extraction is done with Centroid method. Here we use two parameters to remove the similar ones and ones which have no similarity with the document. Adjusting this parameters can directly affect the overall number of sentences and also the relative relation between sentence and the whole document.
+\paragraph{}	The threshold value for upper limit for eliminating redundancy is initialized with 0.9 and the lower limit for removing sentences of no relevance is 0.1. This value keeps on changing throughout the iteration till number of sentences to be selected or till convergence is reached.
+
+	
+Sentence Ordering
+\paragraph{}	Ordering is one of the most difficult tasks in this to do and evaluate. In our work we first used a naïve algorithm using the sentence weight .This was somewhat accurate but decreased the readability of the summary since no importance was given to the original ordering
+\paragraph{}	Next we tried to sort the ordered sentence based on the relative position of the sentence in the original document. This provided an even better result and increased the readability of the summary. Since original ordering was preserved it worked perfectly in articles of small lengths. But when the length of the input documents increased the ordering began to go wrong.
+\paragraph{}	In the third stage we included the three ordering experts. viz Chronological, Precedence and Succession. Details of each have been explained in the system design. While calculating the rank of a sentence we use all these three combined. So weights have to be assigned to each expert
+\paragraph{}	In our testing we found out that chronological expert was most important and gave it the most priority. Succession and precedence priorities were initially given same but on finer examination we found out that precedence should have been given more priority than precedence so finally the weights for each expert was as follows.
+\begin{itemize}
+\item Chronological, 0.5
+\item Precedence, 0.3
+\item Sucession, 0.2
+\end{itemize}
+\paragraph{} Sentences ordered with this configuration were given to produce excellent results. But occasionally there was issues of less readability that might have crept in due to lack of supervised training which we found very essential in this kind of algorithms.
+
+\chapter{Conclusion}
+\paragraph{} In this work we dealt with the concept of Sentence Extraction and Sentence Reordering. Various challenges were encountered during the implementation. Certain problems included the finding out of appropriate values for the various documents. These values were obtained by testing and evaluation of the output for different thresholds. Eventually suitable values were obtained. The project was implemented sucessfully. An efficient summary was generated for various documents, but a better result could be yeild for certain class of documents. 
+\section{Future Work}
+\paragraph{} Better and Efficient algorithms for document clustering could be generated and documents can be fetched automatically from various sources. Thereby generating apt summaries for the automatically detected trending topics. 

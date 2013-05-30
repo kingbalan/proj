@@ -1,0 +1,72 @@
+\chapter{Terms And Defination}
+\begin{itemize}
+\item \textbf{Document} \newline A piece of electronic text matter that provides information or evidence or that serves as an official record.
+
+\item \textbf{Summarization} \newline The act of preparing summary of electronic text document;
+
+\item \textbf{Stop words} \newline Stop words are words which are filtered out prior to, or after, processing of natural language data (text)
+
+\item \textbf{Tokenization} \newline Tokenization is the process of breaking a stream of text up into words, phrases, symbols, or other meaningful elements called tokens. The list of tokens becomes input for further processing such as parsing or text mining. Tokenization is useful both in linguistics (where it is a form of text segmentation), and in computer science, where it forms part of lexical analysis. The tokenize module provides a lexical scanner for Python source code, implemented in Python. 
+
+\item \textbf{Stemming} \newline Stemming is the process for reducing inflected (or sometimes derived) words to their stem, base or root form—generally a written word form. The stem need not be identical to the morphological root of the word. There are several types of stemming algorithms which differ in respect to performance and accuracy and how certain stemming obstacles are overcome. e.g : \textbf{Lookup algorithms}
+\paragraph{} A simple stemmer looks up the inflected form in a lookup table. The advantages of this approach are that it is simple, fast, and easily handles exceptions. The disadvantages are that all inflected forms must be explicitly listed in the table: new or unfamiliar words are not handled, even if they are perfectly regular (e.g. iPads ~ iPad), and the table may be large. For languages with simple morphology, like English, table sizes are modest, but highly inflected languages like Turkish may have hundreds of potential inflected forms for each root.A lookup approach may use preliminary part-of-speech tagging to avoid over stemming. 
+\item \textbf{Vector} \newline
+Each sentence is represented as n-Dimensional spatial coordinate. Each word in a sentence is represented as vector. Though if a sentence contain n words it would represent n dimensional vector in space. Its relevance is calculated using cosine law  
+
+\item \textbf{Clustering} \newline
+Clustering is the task of grouping a set of objects in such a way that objects in the same group (called cluster) are more similar (in some sense or another) to each other than to those in other groups (clusters). It is a main task of exploratory data mining, and a common technique for statistical data analysis used in many fields, including machine learning, pattern recognition, image analysis, information retrieval, and bioinformatics. There are several clustering methods are available,  method we adopted here is hierarchical clustering.
+
+\item \textbf{Hierarchical clustering} \newline
+Is a method of cluster analysis which seeks to build a hierarchy of clusters. Strategies for hierarchical clustering generally fall into two types:
+\begin{enumerate}[a. ]
+\item \textbf{Agglomerative :}  This is a "bottom up" approach: each observation starts in its own cluster, and pairs of clusters are merged as one moves up the hierarchy.
+\item \textbf{Divisive :} This is a "top down" approach: all observations start in one cluster, and splits are performed recursively as one moves down the hierarchy.
+\end{enumerate}
+
+\item \textbf{Cosine Similarity} \newline
+Cosine similarity is a measure of similarity between two vectors of an inner product space that measures the cosine of the angle between them. The cosine of 0° is 1, and it is less than 1 for any other angle. It is thus a judgement of orientation and not magnitude: two vectors with the same orientation have a Cosine similarity of 1, two vectors at 90° have a similarity of 0, and two vectors diametrically opposed have a similarity of -1, independent of their magnitude. Cosine similarity is particularly used in positive space, where the outcome is neatly bounded in [0,1].Note that these bounds apply for any number of dimensions, and Cosine similarity is most commonly used in high-dimensional positive spaces. For example, in Information Retrieval, each term is notionally assigned a different dimension and a document is characterized by a vector where the value of each dimension corresponds to the number of times that term appears in the document. Cosine similarity then gives a useful measure of how similar two documents are likely to be in terms of their subject matter.
+
+\item \textbf{Sentence} \newline
+A set of words that is complete in itself, typically containing a subject and predicate, conveying a statement, question, exclamation.
+
+\item \textbf{Corpus} \newline
+Collection of data set.
+
+
+\item \textbf{Chronological Expert} \newline
+Chronological expert reflects the chronological ordering by returning 0 or 1 or 0.5 while comparing 2 sentences in their chronological order. if both sentence have same chronological preference, returns 0.5. Other wise 1 or zero depending on the priority.
+
+\item \textbf{Precedence Expert} \newline
+We define the precedence, pre(I),of a sentence as follows,
+\begin{center}
+\begin{equation}
+pre(I) = \frac{1}{|Q|}\sum_{q \in Q, p \in Pq}^{N} maxism(p,I)
+\end{equation}
+\end{center}
+here Pq is the set of sentences preceding the sentence q $\in$ Q, the original document,and $|Q|$ denotes the total number of sentence that we have ordered so far. We calculate sim(p,I) using cosine similarity. The formalism of precedence proposed in the equation above captures the idea of similarity between preceding information of a sentence in an original document and an extracted sentence that must be ordered in the summary. Consequently we consider all the sentence in the Q. The preference function returns 0 or 1 or 0.5 according to their similarity factor.
+\item \textbf{Succession Expert} \newline
+\begin{center}
+\begin{equation}
+succ(I) = \frac{1}{|Q|}\sum_{q \in Q, p \in Pq}^{N} maxism(s,I)
+\end{equation}
+\end{center}
+Here, We calculate sim(s,I) using cosine similarity.Sq is the set of sentences that appear after(succeeds) the sentence q in the original document from which q was extracted. Succession score compares each sentence that appear in Sq against the sentence I that we must order next. if some sentence in Sq contains information similar to that conveyed by I, the I obtains a higher succession score. Because it is sufficient that at least one sentence similar to I in each Succeeding block, we consider the maximum similarity. Moreover, we divide the sum of similarity scores by the total number of sentences in Q to avoid any bias toward longer Q segments. Succession expert return 0 or 1 or 0.5 according to their succession similarity factor.
+
+\item \textbf{Converge} \newline
+Come together from different directions so as eventually to meet.
+
+\item \textbf{Redundancy} \newline
+Duplication of same sentences in summary containing same meaning
+\item \textbf{TF-IDF} \newline
+Tf–idf, term frequency–inverse document frequency, is a numerical statistic which reflects how important a word is to a document in a collection or corpus. It is often used as a weighting factor in information retrieval and text mining. The tf-idf value increases proportionally to the number of times a word appears in the document, but is offset by the frequency of the word in the corpus, which helps to control for the fact that some words are generally more common than others.
+\paragraph{} Variations of the tf-idf weighting scheme are often used by search engines as a central tool in scoring and ranking a document's relevance given a user query. tf-idf can be successfully used for stop-words filtering in various subject fields including text summarization and classification. One of the simplest ranking functions is computed by summing the tf–idf for each query term; many more sophisticated ranking functions are variants of this simple model.
+
+\item \textbf{JSON} \newline
+The JSON format is often used for serializing and transmitting structured data over a network connection. It is used primarily to transmit data between a server and web application, serving as an alternative to XML.
+\item \textbf{XML} \newline
+Extensible Markup Language (XML) is a markup language that defines a set of rules for encoding documents in a format that is both human-readable  and machine-readable. The design goals of XML emphasize simplicity, generality, and usability over the Internet.  It is a textual data format with strong support via Unicode for the languages of the world. Although the design of XML focuses on documents, it is widely used for the representation of arbitrary data structures, for example in web services. 
+\item \textbf{HTML} \newline
+Hyper Text Markup Language (HTML) is the main markup language for creating web pages and other information that can be displayed in a web browser.HTML elements form the building blocks of all websites. HTML allows images and objects  to be embedded and can be used to create interactive forms. It provides a means to create structured documents by denoting structural semantics for text such as headings, paragraphs, lists, links, quotes and other items. It can embed scripts written in languages such as JavaScript which affect the behavior of HTML web pages.
+
+
+\end{itemize}
